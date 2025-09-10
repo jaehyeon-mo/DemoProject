@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var wifiEnabled: Bool = true
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Toggle(isOn: $wifiEnabled) {
+            Text("Enabled Wi-Fi")
         }
-        .padding()
+        WifiImageView(wifiEnabled: $wifiEnabled)
+    }
+}
+
+struct WifiImageView: View {
+    
+    @Binding var wifiEnabled: Bool
+    
+    var body: some View {
+        Image(systemName: wifiEnabled ? "wifi" : "wifi.slash")
     }
 }
 
