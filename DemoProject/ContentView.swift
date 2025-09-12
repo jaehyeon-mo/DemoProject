@@ -11,7 +11,9 @@ struct ContentView: View {
     
 //    @State private var wifiEnabled: Bool = true
     
-    @StateObject var demoData: DemoData = DemoData()
+//    @StateObject var demoData: DemoData = DemoData()
+    
+    let speedsetting = SpeedSetting()
     
     var body: some View {
 //        Toggle(isOn: $wifiEnabled) {
@@ -19,7 +21,12 @@ struct ContentView: View {
 //        }
 //        WifiImageView(wifiEnabled: $wifiEnabled)
         
-        Text("\(demoData.currentUser), you are user number \(demoData.userCount)")
+//        Text("\(demoData.currentU/*ser), you are user number \(demoData.userCount)")
+        VStack {
+            SpeedControlView()
+            SpeedDisplayView()
+        }
+        .environmentObject(speedsetting)
     }
 }
 
@@ -32,6 +39,25 @@ struct ContentView: View {
 //    }
 //}
 
+struct SpeedControlView: View {
+    
+    @EnvironmentObject var speedsetting: SpeedSetting
+    
+    var body: some View {
+        Slider(value: $speedsetting.speed, in: 0...100)
+    }
+}
+
+struct SpeedDisplayView: View {
+    
+    @EnvironmentObject var speedsetting: SpeedSetting
+    
+    var body: some View {
+        Text("Speed = \(speedsetting.speed)")
+    }
+}
+
 #Preview {
-    ContentView(demoData: DemoData())
+//    ContentView(demoData: DemoData())
+    ContentView()
 }
