@@ -8,36 +8,73 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-//    @State private var wifiEnabled: Bool = true
-    
-//    @StateObject var demoData: DemoData = DemoData()
-    
+    /*
+    @State private var wifiEnabled: Bool = true
+     
+    @StateObject var demoData: DemoData = DemoData()
+     
     let speedsetting = SpeedSetting()
+     */
+    var colors: [Color] = [.black, .red, .green, .blue]
+    var colornames = ["black", "red", "green", "blue"]
+    
+    @State private var colorIndex: Int = 0
+    @State private var rotation: Double = 0
+    @State private var text: String = "Welcome to SwiftUI"
     
     var body: some View {
-//        Toggle(isOn: $wifiEnabled) {
-//            Text("Enabled Wi-Fi")
-//        }
-//        WifiImageView(wifiEnabled: $wifiEnabled)
-        
-//        Text("\(demoData.currentU/*ser), you are user number \(demoData.userCount)")
+        /*
+        Toggle(isOn: $wifiEnabled) {
+            Text("Enabled Wi-Fi")
+        }
+        WifiImageView(wifiEnabled: $wifiEnabled)
+         
+        Text("\(demoData.currentUser), you are user number \(demoData.userCount)")
+         
         VStack {
             SpeedControlView()
             SpeedDisplayView()
         }
         .environmentObject(speedsetting)
+         */
+        VStack {
+            Spacer()
+            Text(text)
+                .font(.largeTitle)
+                .fontWeight(.heavy)
+                .rotationEffect(.degrees(rotation))
+                .animation(.easeInOut(duration: 5), value: rotation)
+                .foregroundColor(colors[colorIndex])
+            
+            Spacer()
+            Divider()
+            Slider(value: $rotation, in: 0...360, step: 0.1)
+                .padding()
+            
+            TextField("Enter text here", text: $text)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            Picker(selection: $colorIndex, label: Text("Color")) {
+                ForEach (0 ..< colornames.count, id: \.self) {
+                    Text(colornames[$0])
+                        .foregroundColor(colors[$0])
+                }
+            }
+            .pickerStyle(.wheel)
+            .padding()
+        }
     }
 }
-
-//struct WifiImageView: View {
-//    
-//    @Binding var wifiEnabled: Bool
-//    
-//    var body: some View {
-//        Image(systemName: wifiEnabled ? "wifi" : "wifi.slash")
-//    }
-//}
+/*
+struct WifiImageView: View {
+    
+    @Binding var wifiEnabled: Bool
+    
+    var body: some View {
+        Image(systemName: wifiEnabled ? "wifi" : "wifi.slash")
+    }
+}
 
 struct SpeedControlView: View {
     
@@ -56,8 +93,11 @@ struct SpeedDisplayView: View {
         Text("Speed = \(speedsetting.speed)")
     }
 }
+ */
 
 #Preview {
-//    ContentView(demoData: DemoData())
+    /*
+    ContentView(demoData: DemoData())
+     */
     ContentView()
 }
