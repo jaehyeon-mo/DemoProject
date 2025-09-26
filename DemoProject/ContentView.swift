@@ -14,13 +14,13 @@ struct ContentView: View {
     @StateObject var demoData: DemoData = DemoData()
      
     let speedsetting = SpeedSetting()
-     */
     var colors: [Color] = [.black, .red, .green, .blue]
     var colornames = ["black", "red", "green", "blue"]
     
     @State private var colorIndex: Int = 0
     @State private var rotation: Double = 0
     @State private var text: String = "Welcome to SwiftUI"
+     */
     
     var body: some View {
         /*
@@ -36,7 +36,6 @@ struct ContentView: View {
             SpeedDisplayView()
         }
         .environmentObject(speedsetting)
-         */
         VStack {
             Spacer()
             Text(text)
@@ -64,6 +63,25 @@ struct ContentView: View {
             .pickerStyle(.wheel)
             .padding()
         }
+        */
+        Button(action: {
+            Task {
+                await doSomething()
+            }
+        }) {
+            Text("Do Something")
+        }
+    }
+    
+    func doSomething() async {
+        print("Start \(Date())")
+        await takesTooLong()
+        print("End \(Date())")
+    }
+    
+    func takesTooLong() async {
+        sleep(5)
+        print("Async task completed at \(Date())")
     }
 }
 /*
