@@ -21,6 +21,10 @@ struct ContentView: View {
     @State private var rotation: Double = 0
     @State private var text: String = "Welcome to SwiftUI"
      */
+    enum DurationError: Error {
+        case tooLong
+        case tooShort
+    }
     
     var body: some View {
         /*
@@ -74,14 +78,21 @@ struct ContentView: View {
     }
     
     func doSomething() async {
-        print("Start \(Date())")
-        await takesTooLong()
-        print("End \(Date())")
+        await withTaskGroup(of: Void.self) { group in
+            for i in 1...5 {
+                group.addTask {
+                    let result = await takesTooLong()
+                    print("Completed Task \(i) = \(result)")
+                }
+            }
+        }
     }
     
-    func takesTooLong() async {
-        sleep(5)
-        print("Async task completed at \(Date())")
+    func takesTooLong() async -> Date {
+//        sleep(5)
+        // 동기 sleep 대신 비동기 sleep 사용
+        try? await Task.sleep(nanoseconds: 5 * 1_000_000_000) // 5초
+        return Date()
     }
 }
 /*
