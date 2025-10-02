@@ -78,15 +78,47 @@ struct ContentView: View {
     }
     
     func doSomething() async {
-        await withTaskGroup(of: Void.self) { group in
-            for i in 1...5 {
-                group.addTask {
-                    let result = await takesTooLong()
-                    print("Completed Task \(i) = \(result)")
-                }
-            }
+        
+        print("start")
+        
+        let myStruct = MyStruct()
+        
+        Task {
+            let date = await myStruct.myResult
+            print(date)
         }
+        
+//        let date = await myStruct.myResult
+//        print(date)
+        
+        print("end")
     }
+    
+//    func doSomething() async {
+//        
+//        var timeStamps: [Int: Date] = [:]
+//        
+//        await withTaskGroup(of: (Int, Date).self) { group in
+//            
+//            for i in 1...5 {
+//                group.addTask {
+//                    /*
+//                    let result = await takesTooLong()
+//                    print("Completed Task \(i) = \(result)")
+//                     */
+//                    return (i, await takesTooLong())
+//                }
+//            }
+//            
+//            for await (task, date) in group {
+//                timeStamps[task] = date
+//            }
+//        }
+//        
+//        for (task, date) in timeStamps {
+//            print("Task = \(task), Date = \(date)")
+//        }
+//    }
     
     func takesTooLong() async -> Date {
 //        sleep(5)
@@ -123,6 +155,18 @@ struct SpeedDisplayView: View {
     }
 }
  */
+struct MyStruct {
+    var myResult: Date {
+        get async {
+            return await self.getTime()
+        }
+    }
+    
+    func getTime() async -> Date {
+        sleep(5)
+        return Date()
+    }
+}
 
 #Preview {
     /*
